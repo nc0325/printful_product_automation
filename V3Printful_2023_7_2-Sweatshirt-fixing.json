@@ -1,0 +1,618 @@
+{
+  "Name": "V3Printful_2023_7_2-Sweatshirt-fixing",
+  "CreationDate": "2023-7-24",
+  "Commands": [
+    {
+      "Command": "store",
+      "Target": "fast",
+      "Value": "!replayspeed",
+      "Description": ""
+    },
+    {
+      "Command": "csvReadArray",
+      "Target": "sayings-sweastshirt-fixing.csv",
+      "Value": "sayingCSV",
+      "Description": "Get data from Saying CSV"
+    },
+    {
+      "Command": "csvReadArray",
+      "Target": "printful-sweatshirt_innerlabel.csv",
+      "Value": "printfulCSV",
+      "Description": "Get data from Printify CSV"
+    },
+    {
+      "Command": "comment",
+      "Target": "Getting template name",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${printfulCSV[1][2]}",
+      "Value": "templateName",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${printfulCSV[1][3]}",
+      "Value": "templateType",
+      "Description": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "${templateName}",
+      "Value": "",
+      "Description": "Check tempalte name"
+    },
+    {
+      "Command": "store",
+      "Target": "1",
+      "Value": "sayingIndex",
+      "Description": "Check tempalte name"
+    },
+    {
+      "Command": "while",
+      "Target": "${sayingIndex} < ${sayingCSV.length}",
+      "Value": "sayingIndex",
+      "Description": "Check tempalte name"
+    },
+    {
+      "Command": "store",
+      "Target": "${sayingCSV[${sayingIndex}][0]} - ${templateType}",
+      "Value": "productName",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=sync-product-list-search",
+      "Value": "${productName}",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "Start variant colors",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//tr[contains(@class,\"sync-products-list-item\")][1]/td[5]/div/div/a",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "5000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "executeScript_Sandbox",
+      "Target": "var val4 = ${sayingCSV}[${sayingIndex}][4].split(',');\nvar val5 = ${sayingCSV}[${sayingIndex}][5].split(',');\nvar arr = [];\nvar i = 0;\nvar maxValue = 0;\n\n\nfor(i = 0; i < val4.length; i ++) {\n\tif (maxValue < val4[i])\n\t\tmaxValue = val4[i];\n}\nfor(i = 0; i < val5.length; i ++) {\n\tif (maxValue < val5[i])\n\t\tmaxValue = val4[i];\n}\n\nfor(i = 0; i <= maxValue; i ++) {\n\tarr[i] = 0;\n}\nfor(i = 0; i < val4.length; i ++) {\n\tarr[val4[i]] = 1;\n}\n\nfor(i = 0; i < val5.length; i ++) {\n\tif(arr[val5[i]])\n\t\tarr[val5[i]] += 2;\n\telse \n\t\tarr[val5[i]] = 2;\n}\n\nreturn arr;",
+      "Value": "fixingArray",
+      "Description": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "fixingArray: ${fixingArray}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "1",
+      "Value": "colorIndex",
+      "Description": ""
+    },
+    {
+      "Command": "while",
+      "Target": "${colorIndex} < ${fixingArray.length}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "colorIndex: ${colorIndex}",
+      "Value": "colorIndex",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "1",
+      "Value": "printfulRowIndex",
+      "Description": ""
+    },
+    {
+      "Command": "if",
+      "Target": "${fixingArray[${colorIndex}]} < 1",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "gotoLabel",
+      "Target": "END_COLOR_LOOP",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "a",
+      "Value": "imageHeaderText",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "a",
+      "Value": "innerlabelPath",
+      "Description": ""
+    },
+    {
+      "Command": "while",
+      "Target": "${printfulRowIndex}< ${printfulCSV.length}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "executeScript_Sandbox",
+      "Target": "var colorCol = ${printfulCSV[${printfulRowIndex}][1]}.split(\",\");\nreturn colorCol.indexOf(Number(${colorIndex}).toString());\n",
+      "Value": "findIndex",
+      "Description": ""
+    },
+    {
+      "Command": "if",
+      "Target": "${findIndex} >= 0",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${printfulCSV[${printfulRowIndex}][0]}",
+      "Value": "imageHeaderText",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${printfulCSV[${printfulRowIndex}][4]}",
+      "Value": "innerlabelPath",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "executeScript_Sandbox",
+      "Target": "return Number(${printfulRowIndex}) + 1;",
+      "Value": "printfulRowIndex",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "colorIndex; ${colorIndex}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "echo",
+      "Target": "imageHeaderText; ${imageHeaderText}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"sync-variants-container\" and @class=\"sync-row-selector\"]/div[2]/div[4]/div/div/div/div/div/a[${colorIndex}]",
+      "Value": "",
+      "Description": "Color Button"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"sync-variants-container\" and @class=\"sync-row-selector\"]/div[2]/div[4]/div/div/div/div/div/a[${colorIndex}]",
+      "Value": "",
+      "Description": "Color Button"
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"sync-variants-container\" and @class=\"sync-row-selector\"]/div[2]/div[4]/div/div/div/div/div/a[${colorIndex}]",
+      "Value": "",
+      "Description": "Color Button"
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"sync-variants-container\"  and @class=\"sync-row-selector\"]/div[2]/div[5]/div/div/div/div/div/div/div/div/input",
+      "Value": "",
+      "Description": "select all check box"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//a[@id='edit-print-files']",
+      "Value": "Change print file",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "4000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "executeScript",
+      "Target": "return  ${fixingArray[${colorIndex}]} == 1 ||  ${fixingArray[${colorIndex}]} > 2;",
+      "Value": "bool13",
+      "Description": ""
+    },
+    {
+      "Command": "executeScript",
+      "Target": "return  ${fixingArray[${colorIndex}]} ==2 ||  ${fixingArray[${colorIndex}]} > 2;",
+      "Value": "bool23",
+      "Description": ""
+    },
+    {
+      "Command": "if",
+      "Target": "${bool13} == true",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//div[@class=\"swipe-container\"]/div/div[2]/div/a",
+      "Value": "",
+      "Description": "select three dot button"
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//div[@class=\"swipe-container\"]/div/div[2]/div/div/li[2]/a",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "Select upload side bar",
+      "Value": "",
+      "Description": "Click uploads button"
+    },
+    {
+      "Command": "XClick",
+      "Target": "xpath=//aside/nav[2]/button[1]",
+      "Value": "",
+      "Description": "Click uploads button"
+    },
+    {
+      "Command": "executeScript_Sandbox",
+      "Target": "var sayingHeaders = ${sayingCSV[0]}; \nreturn sayingHeaders.indexOf(${imageHeaderText}.toString());",
+      "Value": "imageHeaderIndex",
+      "Description": ""
+    },
+    {
+      "Command": "store",
+      "Target": "${sayingCSV[${sayingIndex}][${imageHeaderIndex}]}",
+      "Value": "imageFilePath",
+      "Description": "change saying index"
+    },
+    {
+      "Command": "echo",
+      "Target": "imageFilePath: ${imageFilePath}",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=file-library-search",
+      "Value": "${imageFilePath}",
+      "Description": "7. Upload a light design file"
+    },
+    {
+      "Command": "pause",
+      "Target": "5000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "XMove",
+      "Target": "xpath=//*[@id=\"file-library-list\"]/div[2]/div/div/div/a/div",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "waitForElementVisible",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div/div/div/a",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "XMove",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div/div/div/a",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "XClick",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div/div/div/a",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "pause",
+      "Target": "4000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "exit uploading..",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "if",
+      "Target": "${bool23} == true",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "Click inner label",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"js--design-maker\"]/div/div/div[2]/ul/div/button[4]/div/div/span",
+      "Value": "",
+      "Description": "click inner label menu"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": "",
+      "Description": "click inner label menu"
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//div[@class=\"swipe-container\"]/div/div[2]/div/a",
+      "Value": "",
+      "Description": "select three dot button"
+    },
+    {
+      "Command": "XClick",
+      "Target": "xpath=//div[@class=\"swipe-container\"]/div/div[2]/div/div/li[2]/a",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "Insert FirstRow inner label",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//aside/nav[2]/button[1]",
+      "Value": "",
+      "Description": "Click uploads button"
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "type",
+      "Target": "id=file-library-search",
+      "Value": "${innerlabelPath}",
+      "Description": "7. Upload a light design file"
+    },
+    {
+      "Command": "pause",
+      "Target": "5000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "XMove",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "waitForElementVisible",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div/div/div/a",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "XMove",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div/div/div/a",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "XClick",
+      "Target": "xpath=//*[@id=\"file-library-list\"]//div[@class=\"row\"]/div/div/a/div/div/div/a",
+      "Value": "",
+      "Description": "8. Click \"\"Apply\""
+    },
+    {
+      "Command": "comment",
+      "Target": "exit uploading..",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "5000",
+      "Value": "",
+      "Description": "wait for mockups to generate"
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"js--design-maker\"]/div/div[2]/div/div/div[2]/div/button",
+      "Value": "",
+      "Description": "Proceed."
+    },
+    {
+      "Command": "pause",
+      "Target": "1000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "id=js--continue",
+      "Value": "",
+      "Description": "Continue"
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "click",
+      "Target": "xpath=//*[@id=\"sync-variants-container\"]/div[2]/div[4]/div/div/div/div/div/a[${colorIndex}]",
+      "Value": "",
+      "Description": "Color Button"
+    },
+    {
+      "Command": "label",
+      "Target": "END_COLOR_LOOP",
+      "Value": "",
+      "Description": "Color Button"
+    },
+    {
+      "Command": "executeScript_Sandbox",
+      "Target": "return Number(${colorIndex}) + 1;",
+      "Value": "colorIndex",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "3000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "Move to next saying",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "executeScript_Sandbox",
+      "Target": "return Number(${sayingIndex}) + 1;",
+      "Value": "sayingIndex",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "2000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "open",
+      "Target": "https://www.printful.com/dashboard/sync?store=8829428&syncProductType=all&page=1&search=",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "pause",
+      "Target": "4000",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "comment",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "end",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    },
+    {
+      "Command": "",
+      "Target": "",
+      "Value": "",
+      "Description": ""
+    }
+  ]
+}
